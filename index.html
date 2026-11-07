@@ -1272,9 +1272,9 @@
       transform: translateY(26px);
       transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
+    .reveal.visible, .hero .reveal {
+      opacity: 1 !important;
+      transform: none !important;
     }
 
     /* Print Styles */
@@ -1431,7 +1431,7 @@
         <!-- Asymmetric Formal Portrait Composition -->
         <div class="hero-photo-wrap reveal">
           <div class="hero-photo-card tilt-card">
-            <img src="assets/abhinav-portrait.jpg" alt="Abhinav Jha formal portrait in tailored black suit">
+            <img src="./assets/abhinav-portrait.jpg" onerror="handleImageFallback(this)" alt="Abhinav Jha formal portrait in tailored black suit" loading="eager" fetchpriority="high">
             
             <span class="photo-tag-badge">MBA CANDIDATE</span>
 
@@ -1580,7 +1580,7 @@
                 Rotational corporate finance exposure across Accounts Payable (AP), Accounts Receivable (AR), Food &amp; Beverage cost control auditing, third-party booking platform commission reconciliations, and Prolific ERP workflows.
               </p>
               <div class="timeline-office-photo">
-                <img src="assets/abhinav-at-work.jpg" alt="Abhinav reviewing financial records in office at The LaLiT New Delhi">
+                <img src="./assets/abhinav-at-work.jpg" onerror="handleImageFallback(this)" alt="Abhinav reviewing financial records in office at The LaLiT New Delhi" loading="lazy">
               </div>
             </div>
             <div class="timeline-meta">
@@ -1985,7 +1985,7 @@
         <!-- Academic Recognition & Certificate Presentation Spotlight -->
         <div class="achievement-spotlight glass-dark reveal">
           <div class="achievement-photo">
-            <img src="assets/abhinav-outdoors.jpg" alt="Abhinav receiving certificate with faculty leadership">
+            <img src="./assets/abhinav-outdoors.jpg" onerror="handleImageFallback(this)" alt="Abhinav receiving certificate with faculty leadership" loading="lazy">
           </div>
           <div class="achievement-info">
             <span class="eyebrow eyebrow-violet">Academic Achievement</span>
@@ -2025,11 +2025,11 @@
           <!-- Photo Duo Column -->
           <div class="beyond-photos-row reveal">
             <div class="beyond-img-card">
-              <img src="assets/abhinav-outdoors.jpg" alt="Abhinav receiving a certificate with a faculty member">
+              <img src="./assets/abhinav-outdoors.jpg" onerror="handleImageFallback(this)" alt="Abhinav receiving a certificate with a faculty member" loading="lazy">
               <span class="badge-overlay">Academic Milestone</span>
             </div>
             <div class="beyond-img-card">
-              <img src="assets/abhinav-evening.jpg" alt="Abhinav outdoors in the evening in relaxed casual attire">
+              <img src="./assets/abhinav-evening.jpg" onerror="handleImageFallback(this)" alt="Abhinav outdoors in the evening in relaxed casual attire" loading="lazy">
               <span class="badge-overlay">Lifestyle · Evening</span>
             </div>
           </div>
@@ -2342,6 +2342,26 @@
 
   <!-- Client-Side JavaScript -->
   <script>
+    // Universal Image Fallback Handler
+    function handleImageFallback(img) {
+      const filename = img.getAttribute('src').split('/').pop();
+      if (!img.dataset.attempt) {
+        img.dataset.attempt = '1';
+        img.src = filename; // Try root level
+        return;
+      }
+      if (img.dataset.attempt === '1') {
+        img.dataset.attempt = '2';
+        img.src = 'assets/' + filename; // Try assets/
+        return;
+      }
+      if (img.dataset.attempt === '2') {
+        img.dataset.attempt = '3';
+        img.src = './' + filename;
+        return;
+      }
+    }
+
     // Cursor Glow Follower on Desktop
     const cursorGlow = document.getElementById('cursorGlow');
     if (cursorGlow) {
