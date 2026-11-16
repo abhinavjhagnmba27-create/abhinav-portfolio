@@ -21,6 +21,16 @@
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
 
+  <!-- Google Analytics 4 (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CPJJWLT57S"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-CPJJWLT57S');
+  </script>
+
   <style>
     :root {
       /* Palette Specified by User */
@@ -2589,6 +2599,9 @@
       if (typeof window.va === 'function') {
         window.va('event', { name: 'view_resume' });
       }
+      if (typeof gtag === 'function') {
+        gtag('event', 'view_resume');
+      }
     }
 
     function closeResumeModal() {
@@ -2607,6 +2620,9 @@
       alertBox.style.display = 'block';
       if (typeof window.va === 'function') {
         window.va('event', { name: 'contact_form_submit' });
+      }
+      if (typeof gtag === 'function') {
+        gtag('event', 'generate_lead', { event_category: 'contact_form' });
       }
       document.getElementById('contactName').value = '';
       document.getElementById('contactEmail').value = '';
